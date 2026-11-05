@@ -1,0 +1,120 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Manage Assignments | AttendEase{% endblock %}
+{% block page_title %}Manage Assignments{% endblock %}
+
+{% block content %}
+
+<div class="subject-management-header">
+    <div>
+        <h2>Teacher Assignments</h2>
+        <p>Manage teacher, classroom and subject assignments.</p>
+    </div>
+
+    <a href="{% url 'add_assignment' %}" class="subject-add-btn">
+        + Add Assignment
+    </a>
+</div>
+
+<div class="subject-total">
+    Total Assignments: <strong>{{ total_assignments }}</strong>
+</div>
+
+<form method="GET" class="student-search-form">
+    <input
+        type="text"
+        name="search"
+        value="{{ search }}"
+        placeholder="Search teacher, classroom or subject..."
+        class="student-search-input"
+    >
+
+    <button type="submit" class="student-search-btn">Search</button>
+
+    {% if search %}
+        <a href="{% url 'manage_assignments' %}" class="student-clear-btn">
+            Clear
+        </a>
+    {% endif %}
+</form>
+
+<div class="subject-table-container">
+    <table class="subject-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Teacher</th>
+                <th>Employee ID</th>
+                <th>Classroom</th>
+                <th>Subject</th>
+                <th>Subject Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+
+                <td class="subject-name">
+                    {{ assignment.teacher.user.get_full_name|default:assignment.teacher.user.username }}
+                </td>
+
+                <td>
+                    {{ assignment.teacher.employee_id }}
+                </td>
+
+                <td>
+                    {{ assignment.classroom.name }}
+                    {% if assignment.classroom.section %}
+                        - {{ assignment.classroom.section }}
+                    {% endif %}
+                </td>
+
+                <td class="subject-name">
+                    {{ assignment.subject.name }}
+                </td>
+
+                <td>
+                    <span class="subject-code">
+                        {{ assignment.subject.code }}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="subject-actions">
+
+                        <a href="{% url 'edit_assignment' assignment.id %}"
+                           class="action-btn edit-btn">
+                            Edit
+                        </a>
+
+                        <form method="POST"
+                              action="{% url 'delete_assignment' assignment.id %}"
+                              onsubmit="return confirm('Are you sure you want to delete this assignment?');">
+                            {% csrf_token %}
+
+                            <button type="submit"
+                                    class="action-btn delete-btn">
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="7" class="subject-empty">
+                    No assignments found. Add your first assignment.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

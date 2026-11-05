@@ -1,0 +1,148 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Manage Teachers | AttendEase{% endblock %}
+
+{% block page_title %}Manage Teachers{% endblock %}
+
+{% block page_subtitle %}
+Create and manage teacher accounts.
+{% endblock %}
+
+{% block content %}
+
+<section class="teacher-toolbar">
+
+    <div>
+        <h2>Teachers ({{ total_teachers }})</h2>
+        <p>All registered teacher profiles.</p>
+    </div>
+
+    <a href="{% url 'add_teacher' %}" class="teacher-add-btn">
+        + Add Teacher
+    </a>
+
+</section>
+
+<form method="GET" class="teacher-search">
+
+    <input
+        type="search"
+        name="search"
+        value="{{ search }}"
+        placeholder="Search by name, username, employee ID or department..."
+    >
+
+    <button type="submit">Search</button>
+
+    {% if search %}
+        <a href="{% url 'manage_teachers' %}">Clear</a>
+    {% endif %}
+
+</form>
+
+<section class="teacher-table-wrapper">
+
+    <table class="teacher-table">
+
+        <thead>
+            <tr>
+                <th>TEACHER</th>
+                <th>EMPLOYEE ID</th>
+                <th>DEPARTMENT</th>
+                <th>EMAIL</th>
+                <th>STATUS</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for teacher in teachers %}
+
+            <tr>
+
+                <td>
+                    <strong>
+                        {{ teacher.user.get_full_name|default:teacher.user.username }}
+                    </strong>
+                    <small>@{{ teacher.user.username }}</small>
+                </td>
+
+                <td>{{ teacher.employee_id }}</td>
+
+                <td>{{ teacher.department|default:"—" }}</td>
+
+                <td>{{ teacher.user.email }}</td>
+
+                <td>
+                    {% if teacher.user.is_active %}
+                        <span class="teacher-status active">Active</span>
+                    {% else %}
+                        <span class="teacher-status inactive">Inactive</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <div class="teacher-actions">
+
+                        <a
+                            href="{% url 'edit_teacher' teacher.id %}"
+                            class="teacher-edit-btn"
+                        >
+                            Edit
+                        </a>
+
+                        <form
+                            method="POST"
+                            action="{% url 'toggle_teacher_status' teacher.id %}"
+                            onsubmit="return confirm('Change teacher account status?');"
+                        >
+                            {% csrf_token %}
+
+                            {% if teacher.user.is_active %}
+                                <button type="submit" class="teacher-deactivate-btn">
+                                    Deactivate
+                                </button>
+                            {% else %}
+                                <button type="submit" class="teacher-activate-btn">
+                                    Activate
+                                </button>
+                            {% endif %}
+
+                        </form>
+
+                        <form
+                            method="POST"
+                            action="{% url 'delete_teacher' teacher.id %}"
+                            onsubmit="return confirm('Permanently delete this teacher account? This action cannot be undone.');"
+                        >
+                            {% csrf_token %}
+
+                            <button type="submit" class="teacher-delete-btn">
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="6" class="teacher-empty">
+                    No teachers found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</section>
+
+{% endblock %}

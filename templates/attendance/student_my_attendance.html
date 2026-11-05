@@ -1,0 +1,247 @@
+
+{% extends 'student/base_student.html' %}
+{% load static %}
+
+{% block title %}My Attendance | AttendEase{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student_my_attendance.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="my-attendance-page">
+
+    <!-- Page Header -->
+    <div class="attendance-page-header">
+        <div>
+            <span class="page-label">ACADEMIC RECORDS</span>
+            <h1>My Attendance</h1>
+            <p>Track your attendance and academic performance.</p>
+        </div>
+
+        <div class="student-class-info">
+            <span>My Class</span>
+            <strong>{{ student.classroom.name }} {{ student.classroom.section }}</strong>
+        </div>
+    </div>
+
+    <!-- Overall Attendance -->
+    <div class="overall-attendance-card">
+
+        <div class="overall-info">
+            <span>OVERALL ATTENDANCE</span>
+            <h2>{{ overall_percentage }}%</h2>
+
+            {% if overall_percentage >= 75 %}
+                <p class="attendance-good">You are maintaining good attendance.</p>
+            {% elif overall_percentage > 0 %}
+                <p class="attendance-warning">Your attendance is below the recommended 75%.</p>
+            {% else %}
+                <p>No attendance records available yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="overall-progress">
+            <div class="circular-progress"
+                 style="--percentage: {{ overall_percentage }};">
+                <div class="progress-inner">
+                    <strong>{{ overall_percentage }}%</strong>
+                    <span>Attendance</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+    <div class="attendance-stats-grid">
+
+        <div class="attendance-stat-card">
+            <span class="stat-title">Total Classes</span>
+            <h2>{{ statistics.total }}</h2>
+            <span class="stat-description">Recorded classes</span>
+        </div>
+
+        <div class="attendance-stat-card present-card">
+            <span class="stat-title">Present</span>
+            <h2>{{ statistics.present }}</h2>
+            <span class="stat-description">Classes attended</span>
+        </div>
+
+        <div class="attendance-stat-card absent-card">
+            <span class="stat-title">Absent</span>
+            <h2>{{ statistics.absent }}</h2>
+            <span class="stat-description">Classes missed</span>
+        </div>
+
+        <div class="attendance-stat-card late-card">
+            <span class="stat-title">Late</span>
+            <h2>{{ statistics.late }}</h2>
+            <span class="stat-description">Late arrivals</span>
+        </div>
+
+    </div>
+
+    <!-- Subject Wise Attendance -->
+    <div class="subject-attendance-section">
+
+        <div class="section-title">
+            <div>
+                <h2>Subject-wise Attendance</h2>
+                <p>Check your attendance percentage in each subject.</p>
+            </div>
+        </div>
+
+        <div class="subject-grid">
+
+            {% for subject in subject_stats %}
+
+            <div class="subject-card">
+
+                <div class="subject-card-header">
+                    <div>
+                        <h3>{{ subject.assignment__subject__name }}</h3>
+                        <span>{{ subject.assignment__subject__code }}</span>
+                    </div>
+
+                    <strong class="subject-percentage">
+                        {{ subject.percentage }}%
+                    </strong>
+                </div>
+
+                <div class="subject-progress-track">
+                    <div class="subject-progress-fill"
+                         style="width: {{ subject.percentage }}%;">
+                    </div>
+                </div>
+
+                <div class="subject-details">
+                    <span>Present: {{ subject.present }}</span>
+                    <span>Absent: {{ subject.absent }}</span>
+                    <span>Late: {{ subject.late }}</span>
+                </div>
+
+                <div class="subject-total">
+                    Total Classes: {{ subject.total }}
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty-subjects">
+                No subject attendance records available.
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- Attendance History -->
+    <div class="attendance-history-section">
+
+        <div class="section-title">
+            <div>
+                <h2>Attendance History</h2>
+                <p>Your complete attendance records.</p>
+            </div>
+
+            <span class="record-count">
+                {{ records|length }} Records
+            </span>
+        </div>
+
+        <div class="history-toolbar">
+            <input
+                type="text"
+                id="attendanceSearch"
+                placeholder="Search subject or status..."
+            >
+
+            <select id="statusFilter">
+                <option value="">All Status</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+                <option value="late">Late</option>
+            </select>
+        </div>
+
+        <div class="attendance-table-wrapper">
+
+            <table class="student-attendance-table" id="attendanceTable">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr data-status="{{ record.status }}">
+
+                        <td>{{ record.date|date:"d M Y" }}</td>
+
+                        <td>
+                            <strong>{{ record.assignment.subject.name }}</strong>
+                            <small>{{ record.assignment.subject.code }}</small>
+                        </td>
+
+                        <td>{{ record.assignment.classroom.name }}</td>
+
+                        <td>
+                            <span class="history-status {{ record.status }}">
+                                {{ record.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if record.remarks %}
+                                {{ record.remarks }}
+                            {% else %}
+                                <span class="no-remarks">—</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5" class="empty-history">
+                            No attendance history available yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                    <tr id="noSearchResults" style="display: none;">
+                        <td colspan="5" class="empty-history">
+                            No matching attendance records found.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/student_my_attendance.js' %}"></script>
+{% endblock %}

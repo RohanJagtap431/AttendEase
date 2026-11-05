@@ -1,0 +1,76 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Add Subject | AttendEase{% endblock %}
+{% block page_title %}Add Subject{% endblock %}
+
+{% block content %}
+
+<div class="subject-form-card">
+
+    <div class="subject-form-heading">
+        <div class="subject-form-icon">▤</div>
+        <div>
+            <h2>Add New Subject</h2>
+            <p>Enter the subject details below.</p>
+        </div>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="subject-form-grid">
+
+            <div class="subject-field">
+                <label for="name">Subject Name <span>*</span></label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ request.POST.name|default:'' }}"
+                    placeholder="Example: Python Programming"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="subject-field">
+                <label for="code">Subject Code <span>*</span></label>
+                <input
+                    type="text"
+                    id="code"
+                    name="code"
+                    value="{{ request.POST.code|default:'' }}"
+                    placeholder="Example: PY101"
+                    maxlength="20"
+                    required
+                >
+            </div>
+
+            <div class="subject-field subject-full-width">
+                <label for="description">Description</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Enter subject description..."
+                >{{ request.POST.description|default:'' }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="subject-form-actions">
+            <a href="{% url 'manage_subjects' %}" class="subject-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="subject-submit-btn">
+                + Add Subject
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Add Assignment | AttendEase{% endblock %}
+{% block page_title %}Add Assignment{% endblock %}
+
+{% block content %}
+
+<div class="assignment-form-card">
+
+    <div class="assignment-form-heading">
+        <div class="assignment-form-icon">⇄</div>
+        <div>
+            <h2>Create Teacher Assignment</h2>
+            <p>Assign a teacher to a classroom and subject.</p>
+        </div>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="assignment-form-grid">
+
+            <!-- Teacher -->
+            <div class="assignment-field">
+                <label for="teacher">Select Teacher <span>*</span></label>
+
+                <select name="teacher" id="teacher" required>
+                    <option value="">Choose Teacher</option>
+
+                    {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}"
+                        {% if request.POST.teacher == teacher.id|stringformat:"s" %}selected{% endif %}>
+                        {{ teacher.user.get_full_name|default:teacher.user.username }}
+                        ({{ teacher.employee_id }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Classroom -->
+            <div class="assignment-field">
+                <label for="classroom">Select Classroom <span>*</span></label>
+
+                <select name="classroom" id="classroom" required>
+                    <option value="">Choose Classroom</option>
+
+                    {% for classroom in classrooms %}
+                    <option value="{{ classroom.id }}"
+                        {% if request.POST.classroom == classroom.id|stringformat:"s" %}selected{% endif %}>
+                        {{ classroom.name }}
+                        {% if classroom.section %}- {{ classroom.section }}{% endif %}
+                        ({{ classroom.academic_year }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Subject -->
+            <div class="assignment-field assignment-full-width">
+                <label for="subject">Select Subject <span>*</span></label>
+
+                <select name="subject" id="subject" required>
+                    <option value="">Choose Subject</option>
+
+                    {% for subject in subjects %}
+                    <option value="{{ subject.id }}"
+                        {% if request.POST.subject == subject.id|stringformat:"s" %}selected{% endif %}>
+                        {{ subject.name }} ({{ subject.code }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <div class="assignment-form-actions">
+
+            <a href="{% url 'manage_assignments' %}"
+               class="assignment-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="assignment-submit-btn">
+                + Create Assignment
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

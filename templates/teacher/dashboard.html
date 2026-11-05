@@ -1,0 +1,195 @@
+
+{% extends 'teacher/base_teacher.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/teacher.css' %}">
+
+
+<div class="teacher-dashboard">
+
+    <div class="page-heading">
+        <div>
+            <h1>Teacher Dashboard</h1>
+            <p>Welcome, {{ request.user.get_full_name|default:request.user.username }}!</p>
+        </div>
+        <div class="teacher-avatar">
+            {{ request.user.username|first|upper }}
+        </div>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card blue">
+            <div>
+                <p>Assigned Classes & Subjects</p>
+                <h2>{{ total_assignments }}</h2>
+            </div>
+            <span>📚</span>
+        </div>
+
+        <div class="stat-card purple">
+            <div>
+                <p>Total Students</p>
+                <h2>{{ total_students }}</h2>
+            </div>
+            <span>👨‍🎓</span>
+        </div>
+
+        <div class="stat-card green">
+            <div>
+                <p>Present Records</p>
+                <h2>{{ attendance_stats.present|default:0 }}</h2>
+            </div>
+            <span>✓</span>
+        </div>
+
+        <div class="stat-card red">
+            <div>
+                <p>Absent Records</p>
+                <h2>{{ attendance_stats.absent|default:0 }}</h2>
+            </div>
+            <span>✕</span>
+        </div>
+
+    </div>
+
+    <section class="dashboard-section">
+
+        <div class="section-heading">
+            <div>
+                <h2>My Assigned Classes</h2>
+                <p>Classes and subjects assigned to you.</p>
+            </div>
+
+            <span class="count-badge">
+                {{ total_assignments }} Assignments
+            </span>
+        </div>
+
+        <div class="assignment-grid">
+
+            {% for assignment in assignments %}
+
+                <div class="assignment-card">
+
+                    <div class="assignment-icon">📖</div>
+
+                    <h3>{{ assignment.subject.name }}</h3>
+
+                    <p>
+                        <strong>Class:</strong>
+                        {{ assignment.classroom.name }}
+                        {{ assignment.classroom.section }}
+                    </p>
+
+                    <p>
+                        <strong>Academic Year:</strong>
+                        {{ assignment.classroom.academic_year }}
+                    </p>
+
+                    <a href="{% url 'mark_attendance' assignment.id %}"
+                       class="primary-btn">
+                        Mark Attendance
+                    </a>
+
+                    <a href="{% url 'attendance_report' assignment.id %}"
+                       class="secondary-btn">
+                        View Report
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <div class="empty-state">
+                    <h3>No Assignments Found</h3>
+                    <p>Please contact the administrator.</p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <section class="dashboard-section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Recent Attendance Records</h2>
+                <p>Your recently marked attendance records.</p>
+            </div>
+        </div>
+
+        <div class="attendance-search">
+            <input
+                type="text"
+                id="attendanceSearch"
+                placeholder="Search student, subject, roll number..."
+            >
+        </div>
+
+        <div class="table-wrapper">
+
+            <table class="dashboard-table">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Roll Number</th>
+                        <th>Classroom</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in recent_attendance %}
+
+                        <tr>
+                            <td>{{ record.date|date:"d M Y" }}</td>
+
+                            <td>
+                                {{ record.student.user.get_full_name|default:record.student.user.username }}
+                            </td>
+
+                            <td>{{ record.student.roll_number }}</td>
+
+                            <td>{{ record.student.classroom.name }}</td>
+
+                            <td>{{ record.assignment.subject.name }}</td>
+
+                            <td>
+                                <span class="status-badge {{ record.status }}">
+                                    {{ record.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="empty-table">
+                                No attendance records available.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="{% static 'js/teacher.js' %}"></script>
+
+{% endblock %}

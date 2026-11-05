@@ -1,0 +1,169 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}System Overview | AttendEase{% endblock %}
+{% block page_title %}System Overview{% endblock %}
+
+{% block content %}
+
+<div class="overview-heading">
+    <div>
+        <h2>System Overview</h2>
+        <p>Monitor your institution's complete attendance system.</p>
+    </div>
+</div>
+
+<!-- STATISTICS -->
+
+<div class="overview-stats-grid">
+
+    <div class="overview-stat-card blue">
+        <span class="overview-stat-icon">♟</span>
+        <p>Total Students</p>
+        <h3>{{ total_students }}</h3>
+        <small>{{ active_students }} Active · {{ inactive_students }} Inactive</small>
+    </div>
+
+    <div class="overview-stat-card purple">
+        <span class="overview-stat-icon">♙</span>
+        <p>Total Teachers</p>
+        <h3>{{ total_teachers }}</h3>
+        <small>{{ active_teachers }} Active · {{ inactive_teachers }} Inactive</small>
+    </div>
+
+    <div class="overview-stat-card green">
+        <span class="overview-stat-icon">▣</span>
+        <p>Total Classrooms</p>
+        <h3>{{ total_classrooms }}</h3>
+        <small>Registered Classrooms</small>
+    </div>
+
+    <div class="overview-stat-card orange">
+        <span class="overview-stat-icon">▤</span>
+        <p>Total Subjects</p>
+        <h3>{{ total_subjects }}</h3>
+        <small>Available Subjects</small>
+    </div>
+
+    <div class="overview-stat-card red">
+        <span class="overview-stat-icon">⇄</span>
+        <p>Teacher Assignments</p>
+        <h3>{{ total_assignments }}</h3>
+        <small>Total Assignments</small>
+    </div>
+
+</div>
+
+<!-- RECENT STUDENTS -->
+
+<div class="overview-section">
+
+    <div class="overview-section-heading">
+        <div>
+            <h2>Recent Students</h2>
+            <p>Latest registered student accounts.</p>
+        </div>
+
+        <a href="{% url 'manage_students' %}">View All →</a>
+    </div>
+
+    <div class="overview-table-container">
+        <table class="overview-table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Roll Number</th>
+                    <th>Classroom</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in recent_students %}
+                <tr>
+                    <td>
+                        <strong>
+                            {{ student.user.get_full_name|default:student.user.username }}
+                        </strong>
+                    </td>
+
+                    <td>{{ student.roll_number }}</td>
+
+                    <td>{{ student.classroom.name }}</td>
+
+                    <td>
+                        {% if student.user.is_active %}
+                            <span class="overview-status active">Active</span>
+                        {% else %}
+                            <span class="overview-status inactive">Inactive</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="overview-empty">
+                        No students registered yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- RECENT ASSIGNMENTS -->
+
+<div class="overview-section">
+
+    <div class="overview-section-heading">
+        <div>
+            <h2>Recent Teacher Assignments</h2>
+            <p>Latest teacher and subject assignments.</p>
+        </div>
+
+        <a href="{% url 'manage_assignments' %}">View All →</a>
+    </div>
+
+    <div class="overview-table-container">
+        <table class="overview-table">
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Classroom</th>
+                    <th>Subject</th>
+                    <th>Subject Code</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for assignment in recent_assignments %}
+                <tr>
+                    <td>
+                        <strong>
+                            {{ assignment.teacher.user.get_full_name|default:assignment.teacher.user.username }}
+                        </strong>
+                    </td>
+
+                    <td>{{ assignment.classroom.name }}</td>
+
+                    <td>{{ assignment.subject.name }}</td>
+
+                    <td>{{ assignment.subject.code }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="overview-empty">
+                        No assignments available.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

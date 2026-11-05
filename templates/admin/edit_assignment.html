@@ -1,0 +1,94 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Edit Assignment | AttendEase{% endblock %}
+{% block page_title %}Edit Assignment{% endblock %}
+
+{% block content %}
+
+<div class="assignment-form-card">
+
+    <div class="assignment-form-heading">
+        <div class="assignment-form-icon">✎</div>
+        <div>
+            <h2>Edit Teacher Assignment</h2>
+            <p>Update teacher, classroom and subject details.</p>
+        </div>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="assignment-form-grid">
+
+            <!-- Teacher -->
+            <div class="assignment-field">
+                <label for="teacher">Select Teacher <span>*</span></label>
+
+                <select name="teacher" id="teacher" required>
+                    <option value="">Choose Teacher</option>
+
+                    {% for teacher in teachers %}
+                    <option value="{{ teacher.id }}"
+                        {% if assignment.teacher_id == teacher.id %}selected{% endif %}>
+                        {{ teacher.user.get_full_name|default:teacher.user.username }}
+                        ({{ teacher.employee_id }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Classroom -->
+            <div class="assignment-field">
+                <label for="classroom">Select Classroom <span>*</span></label>
+
+                <select name="classroom" id="classroom" required>
+                    <option value="">Choose Classroom</option>
+
+                    {% for classroom in classrooms %}
+                    <option value="{{ classroom.id }}"
+                        {% if assignment.classroom_id == classroom.id %}selected{% endif %}>
+                        {{ classroom.name }}
+                        {% if classroom.section %}- {{ classroom.section }}{% endif %}
+                        ({{ classroom.academic_year }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Subject -->
+            <div class="assignment-field assignment-full-width">
+                <label for="subject">Select Subject <span>*</span></label>
+
+                <select name="subject" id="subject" required>
+                    <option value="">Choose Subject</option>
+
+                    {% for subject in subjects %}
+                    <option value="{{ subject.id }}"
+                        {% if assignment.subject_id == subject.id %}selected{% endif %}>
+                        {{ subject.name }} ({{ subject.code }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <div class="assignment-form-actions">
+
+            <a href="{% url 'manage_assignments' %}"
+               class="assignment-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="assignment-submit-btn">
+                Update Assignment
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

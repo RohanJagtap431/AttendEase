@@ -1,0 +1,558 @@
+
+/* My Attendance Page */
+
+.my-attendance-page {
+    width: 100%;
+}
+
+/* Page Header */
+
+.attendance-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.page-label {
+    color: #8da6ff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.attendance-page-header h1 {
+    font-size: 25px;
+    margin: 8px 0;
+}
+
+.attendance-page-header p {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.student-class-info {
+    padding: 14px 20px;
+    background: #151f35;
+    border: 1px solid #293957;
+    border-radius: 10px;
+}
+
+.student-class-info span {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.student-class-info strong {
+    font-size: 14px;
+}
+
+/* Overall Attendance */
+
+.overall-attendance-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    padding: 28px;
+    margin-bottom: 22px;
+    background: linear-gradient(120deg, #192b4d, #172139);
+    border: 1px solid #344769;
+    border-radius: 15px;
+}
+
+.overall-info > span {
+    color: #9aafff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.overall-info h2 {
+    font-size: 38px;
+    margin: 12px 0;
+}
+
+.overall-info p {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.overall-info .attendance-good {
+    color: #4ade80;
+}
+
+.overall-info .attendance-warning {
+    color: #fbbf24;
+}
+
+/* Circular Progress */
+
+.circular-progress {
+    --percentage: 0;
+    width: 145px;
+    height: 145px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: conic-gradient(
+        #7189ff calc(var(--percentage) * 1%),
+        #2b3a56 0
+    );
+    position: relative;
+    flex-shrink: 0;
+}
+
+.progress-inner {
+    width: 118px;
+    height: 118px;
+    background: #192b4d;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-inner strong {
+    font-size: 23px;
+    color: #fff;
+}
+
+.progress-inner span {
+    font-size: 10px;
+    color: #aab7ce;
+    margin-top: 5px;
+}
+
+/* Statistics */
+
+.attendance-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.attendance-stat-card {
+    padding: 20px;
+    background: #151f35;
+    border: 1px solid #293957;
+    border-radius: 12px;
+    transition: 0.2s ease;
+}
+
+.attendance-stat-card:hover {
+    transform: translateY(-3px);
+    border-color: #6685ff;
+}
+
+.stat-title {
+    display: block;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.attendance-stat-card h2 {
+    font-size: 27px;
+    margin: 12px 0 7px;
+}
+
+.stat-description {
+    color: #71809a;
+    font-size: 11px;
+}
+
+.present-card h2 {
+    color: #4ade80;
+}
+
+.absent-card h2 {
+    color: #f87171;
+}
+
+.late-card h2 {
+    color: #fb923c;
+}
+
+/* Common Sections */
+
+.subject-attendance-section,
+.attendance-history-section {
+    padding: 24px;
+    margin-bottom: 25px;
+    background: #151f35;
+    border: 1px solid #293957;
+    border-radius: 14px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.section-title h2 {
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.section-title p {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Subject Cards */
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.subject-card {
+    padding: 20px;
+    background: #1b2942;
+    border: 1px solid #30415f;
+    border-radius: 11px;
+    transition: 0.2s ease;
+}
+
+.subject-card:hover {
+    border-color: #6685ff;
+}
+
+.subject-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.subject-card-header h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.subject-card-header span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.subject-percentage {
+    color: #8da6ff;
+    font-size: 19px;
+}
+
+.subject-progress-track {
+    width: 100%;
+    height: 8px;
+    background: #303e57;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.subject-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5577f5, #927bff);
+    border-radius: 20px;
+}
+
+.subject-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.subject-details span {
+    color: #b5c1d5;
+    font-size: 10px;
+}
+
+.subject-total {
+    padding-top: 13px;
+    margin-top: 13px;
+    border-top: 1px solid #30415f;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.empty-subjects {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    color: #94a3b8;
+    border: 1px dashed #394966;
+    border-radius: 10px;
+}
+
+/* History Toolbar */
+
+.record-count {
+    padding: 7px 12px;
+    background: #263b70;
+    color: #b5c5ff;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.history-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.history-toolbar input,
+.history-toolbar select {
+    height: 42px;
+    padding: 0 13px;
+    background: #1b2942;
+    border: 1px solid #354563;
+    border-radius: 8px;
+    outline: none;
+    color: #f1f5f9;
+    font-size: 12px;
+}
+
+.history-toolbar input {
+    flex: 1;
+}
+
+.history-toolbar input:focus,
+.history-toolbar select:focus {
+    border-color: #7189ff;
+}
+
+.history-toolbar input::placeholder {
+    color: #8493aa;
+}
+
+/* History Table */
+
+.attendance-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.student-attendance-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+}
+
+.student-attendance-table th {
+    padding: 14px;
+    text-align: left;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #30415f;
+}
+
+.student-attendance-table td {
+    padding: 15px 14px;
+    color: #dbe4f2;
+    font-size: 12px;
+    border-bottom: 1px solid #263550;
+}
+
+.student-attendance-table tbody tr:hover {
+    background: rgba(102, 133, 255, 0.05);
+}
+
+.student-attendance-table td strong {
+    display: block;
+    font-size: 12px;
+}
+
+.student-attendance-table td small {
+    display: block;
+    color: #8493aa;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.history-status {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.history-status.present {
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.13);
+}
+
+.history-status.absent {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.13);
+}
+
+.history-status.late {
+    color: #fb923c;
+    background: rgba(249, 115, 22, 0.13);
+}
+
+.no-remarks {
+    color: #71809a;
+}
+
+.empty-history {
+    padding: 35px !important;
+    text-align: center;
+    color: #94a3b8 !important;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .attendance-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .attendance-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .overall-attendance-card {
+        padding: 22px;
+    }
+
+    .circular-progress {
+        width: 115px;
+        height: 115px;
+    }
+
+    .progress-inner {
+        width: 93px;
+        height: 93px;
+    }
+
+    .progress-inner strong {
+        font-size: 19px;
+    }
+
+    .subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-attendance-section,
+    .attendance-history-section {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 450px) {
+    .overall-attendance-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .attendance-stats-grid {
+        gap: 10px;
+    }
+
+    .attendance-stat-card {
+        padding: 14px;
+    }
+
+    .attendance-stat-card h2 {
+        font-size: 22px;
+    }
+
+    .history-toolbar {
+        flex-direction: column;
+    }
+
+    .history-toolbar input,
+    .history-toolbar select {
+        width: 100%;
+    }
+}
+
+/* Improved Mobile Search & Filter */
+
+@media (max-width: 600px) {
+
+    .history-toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px;
+        background: #1b2942;
+        border: 1px solid #30415f;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .history-toolbar input {
+        width: 100%;
+        height: 48px;
+        flex: none;
+        padding: 0 15px 0 42px;
+        color: #f1f5f9;
+        background-color: #111a2e;
+        border: 1px solid #354563;
+        border-radius: 10px;
+        font-size: 13px;
+        outline: none;
+
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 14px center;
+        background-size: 17px;
+        transition: 0.25s ease;
+    }
+
+    .history-toolbar input:focus {
+        border-color: #7189ff;
+        box-shadow: 0 0 0 3px rgba(102, 133, 255, 0.12);
+    }
+
+    .history-toolbar input::placeholder {
+        color: #8493aa;
+        font-size: 12px;
+    }
+
+    .history-toolbar select {
+        width: 100%;
+        height: 46px;
+        padding: 0 14px;
+        color: #e2e8f0;
+        background-color: #111a2e;
+        border: 1px solid #354563;
+        border-radius: 10px;
+        font-size: 13px;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 16px;
+    }
+
+    .history-toolbar select:focus {
+        border-color: #7189ff;
+    }
+
+    .history-toolbar select option {
+        background: #151f35;
+        color: #fff;
+    }
+}

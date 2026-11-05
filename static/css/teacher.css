@@ -1,0 +1,348 @@
+
+/* ==============================
+   TEACHER DASHBOARD
+================================ */
+
+.teacher-dashboard {
+    color: #f1f5f9;
+    width: 100%;
+}
+
+/* Page Heading */
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-heading h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+    color: #f8fafc;
+}
+
+.page-heading p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 14px;
+}
+
+.teacher-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #536dfe;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Statistics Cards */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #111e33;
+    border: 1px solid #263750;
+    border-left: 4px solid #60a5fa;
+    border-radius: 13px;
+    padding: 23px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card p {
+    color: #a8b8ce;
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.stat-card h2 {
+    font-size: 29px;
+    margin: 0;
+    color: #f8fafc;
+}
+
+.stat-card span {
+    font-size: 27px;
+}
+
+.stat-card.purple {
+    border-left-color: #a78bfa;
+}
+
+.stat-card.green {
+    border-left-color: #34d399;
+}
+
+.stat-card.red {
+    border-left-color: #fb7185;
+}
+
+/* Dashboard Sections */
+
+.dashboard-section {
+    background: #111e33;
+    border: 1px solid #263750;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 25px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.section-heading h2 {
+    font-size: 20px;
+    margin: 0 0 7px;
+    color: #f8fafc;
+}
+
+.section-heading p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 14px;
+}
+
+.count-badge {
+    background: #263f68;
+    color: #bfdbfe;
+    padding: 8px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Assignment Cards */
+
+.assignment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.assignment-card {
+    background: #0b1527;
+    border: 1px solid #293b57;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.assignment-card:hover {
+    transform: translateY(-3px);
+    border-color: #536dfe;
+}
+
+.assignment-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.assignment-card h3 {
+    margin: 0 0 15px;
+    font-size: 18px;
+    color: #f8fafc;
+}
+
+.assignment-card p {
+    color: #a8b8ce;
+    font-size: 14px;
+    margin: 9px 0;
+    line-height: 1.6;
+}
+
+/* Buttons */
+
+.primary-btn,
+.secondary-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    padding: 11px;
+    border-radius: 8px;
+    margin-top: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.primary-btn {
+    background: #536dfe;
+    color: #ffffff;
+}
+
+.primary-btn:hover {
+    background: #4058e8;
+}
+
+.secondary-btn {
+    background: #1e304b;
+    color: #dbeafe;
+    border: 1px solid #344967;
+}
+
+.secondary-btn:hover {
+    background: #293f60;
+}
+
+/* Attendance Table */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+.dashboard-table th {
+    background: #1a2b45;
+    color: #a9c9f5;
+    text-align: left;
+    padding: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dashboard-table td {
+    padding: 16px 15px;
+    border-bottom: 1px solid #293b57;
+    font-size: 14px;
+    color: #dbe4f0;
+}
+
+.dashboard-table tbody tr:hover {
+    background: #172943;
+}
+
+.status-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.present {
+    background: #064e3b;
+    color: #6ee7b7;
+}
+
+.status-badge.absent {
+    background: #7f1d1d;
+    color: #fda4af;
+}
+
+.status-badge.late {
+    background: #713f12;
+    color: #fcd34d;
+}
+
+/* Empty States */
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #94a3b8;
+    padding: 35px 20px;
+    background: #0b1527;
+    border: 1px dashed #344967;
+    border-radius: 10px;
+}
+
+.empty-state h3 {
+    color: #e2e8f0;
+    margin-bottom: 8px;
+}
+
+.empty-table {
+    text-align: center;
+    color: #94a3b8;
+    padding: 30px !important;
+}
+
+/* Responsive Design */
+
+@media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .assignment-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .stats-grid,
+    .assignment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-heading h1 {
+        font-size: 23px;
+    }
+
+    .dashboard-section {
+        padding: 16px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+}
+
+.attendance-search {
+    margin-bottom: 18px;
+}
+
+.attendance-search input {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px 15px;
+    background: #0b1527;
+    border: 1px solid #344967;
+    border-radius: 8px;
+    color: #ffffff;
+    outline: none;
+    font-size: 14px;
+}
+
+.attendance-search input:focus {
+    border-color: #536dfe;
+}
+
+.stat-card.card-hover {
+    border-color: #536dfe;
+}

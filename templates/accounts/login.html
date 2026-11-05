@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttendEase | Login</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: #101827;
+            font-family: Arial, sans-serif;
+            color: white;
+            padding: 20px;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 390px;
+            background: #1b293d;
+            padding: 32px;
+            border-radius: 16px;
+        }
+        h1 { margin-top: 0; }
+        p { color: #aab7c8; }
+        label { display: block; margin: 18px 0 8px; }
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #40516b;
+            border-radius: 8px;
+            background: #101827;
+            color: white;
+        }
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            border: 0;
+            border-radius: 8px;
+            background: #536dfe;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .error {
+            background: #572d37;
+            padding: 10px;
+            border-radius: 7px;
+            color: #ffd9df;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>AttendEase</h1>
+        <p>Sign in to your account</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username"
+                   autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"
+                   autocomplete="current-password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Admin Dashboard | AttendEase{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block page_subtitle %}
+Manage your attendance system.
+{% endblock %}
+
+{% block content %}
+
+<!-- Welcome Section -->
+<section class="welcome-section">
+
+    <div>
+        <h2>Welcome back, Admin 👋</h2>
+        <p>Here's what's happening in AttendEase today.</p>
+    </div>
+
+</section>
+
+
+<!-- Statistics -->
+<section class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">♟</div>
+
+        <span>Total Students</span>
+
+        <h2>{{ total_students }}</h2>
+
+        <small>Active student accounts</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon purple">♙</div>
+
+        <span>Total Teachers</span>
+
+        <h2>{{ total_teachers }}</h2>
+
+        <small>Active teacher accounts</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">▣</div>
+
+        <span>Total Classrooms</span>
+
+        <h2>{{ total_classrooms }}</h2>
+
+        <small>Registered classrooms</small>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon orange">▤</div>
+
+        <span>Total Subjects</span>
+
+        <h2>{{ total_subjects }}</h2>
+
+        <small>Available subjects</small>
+
+    </div>
+
+</section>
+
+
+<!-- Management Section -->
+<section class="management-section">
+
+    <div class="section-heading">
+
+        <div>
+            <h2>Management</h2>
+            <p>Manage your institution's information.</p>
+        </div>
+
+    </div>
+
+
+    <div class="management-grid">
+
+        <!-- Students -->
+        <a
+            href="{% url 'manage_students' %}"
+            class="management-card"
+            id="students"
+        >
+
+            <div class="management-icon blue">♟</div>
+
+            <h3>Manage Students</h3>
+
+            <p>
+                Create and manage student accounts, profiles
+                and classroom details.
+            </p>
+
+            <span class="coming-soon">
+                Open Student Management →
+            </span>
+
+        </a>
+
+
+        <!-- Teachers -->
+        <a
+            href="{% url 'manage_teachers' %}"
+            class="management-card"
+            id="teachers"
+        >
+
+            <div class="management-icon purple">♙</div>
+
+            <h3>Manage Teachers</h3>
+
+            <p>
+                Create teacher accounts and manage employee information.
+            </p>
+
+            <span class="coming-soon">
+                Open Teacher Management →
+            </span>
+
+        </a>
+
+
+        <!-- Classrooms -->
+        <a href="{% url 'manage_classrooms' %}"
+        class="management-card"
+        id="classrooms">
+
+            <div class="management-icon green">▣</div>
+
+            <h3>Manage Classrooms</h3>
+
+            <p>
+                Create classrooms and manage academic years.
+            </p>
+
+            <span class="coming-soon">
+                Open Classroom Management →
+            </span>
+
+        </a>
+
+
+        <!-- Subjects -->
+        <a href="{% url 'manage_subjects' %}"
+        class="management-card"
+        id="subjects">
+
+            <div class="management-icon orange">▤</div>
+
+            <h3>Manage Subjects</h3>
+
+            <p>
+                Add subjects, subject codes and descriptions.
+            </p>
+
+            <span class="coming-soon">
+                Open Subject Management →
+            </span>
+
+        </a>
+
+
+
+        
+        <!-- Assignments -->
+        <a href="{% url 'manage_assignments' %}"
+        class="management-card"
+        id="assignments">
+
+            <div class="management-icon purple">📋</div>
+
+            <h3>Teacher Assignments</h3>
+
+            <p>
+                Assign teachers to classrooms and subjects.
+                Manage all teacher assignments.
+            </p>
+
+            <span class="coming-soon">
+                Open Assignment Management →
+            </span>
+
+        </a>
+
+
+
+        
+        <!-- System Overview -->
+        <a href="{% url 'system_overview' %}"
+        class="management-card"
+        id="system-overview">
+
+            <div class="management-icon red">▥</div>
+
+            <h3>System Overview</h3>
+
+            <p>
+                View total students, teachers, classrooms, subjects
+                and system statistics.
+            </p>
+
+            <strong>
+                {{ total_assignments }} Assignments
+            </strong>
+
+            <span class="coming-soon">
+                View System Overview →
+            </span>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+{% endblock %}

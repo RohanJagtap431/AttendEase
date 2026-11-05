@@ -1,0 +1,397 @@
+
+/* =================================
+   ATTENDEASE - TEACHER BASE LAYOUT
+================================= */
+
+:root {
+    --bg-main: #080f1e;
+    --bg-sidebar: #0d1729;
+    --bg-card: #111e33;
+    --bg-hover: #1b2d49;
+    --border: #263750;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent: #536dfe;
+    --sidebar-width: 260px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font: inherit;
+}
+
+/* Main Layout */
+
+.teacher-layout {
+    min-height: 100vh;
+}
+
+/* Sidebar */
+
+.teacher-sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 25px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    border-radius: 11px;
+    font-size: 23px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.sidebar-brand h2 {
+    font-size: 20px;
+    color: #fff;
+}
+
+.sidebar-brand p {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Profile */
+
+.sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 15px;
+    padding: 15px 12px;
+    background: #14233a;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+}
+
+.profile-avatar,
+.topbar-avatar {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    background: #536dfe;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+}
+
+.profile-info {
+    min-width: 0;
+}
+
+.profile-info h3 {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-info p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Navigation */
+
+.sidebar-navigation {
+    padding: 10px 15px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-heading {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    padding: 15px 10px 9px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    margin-bottom: 6px;
+    color: #a8b8ce;
+    border-radius: 9px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.nav-link span {
+    width: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.nav-link:hover {
+    background: var(--bg-hover);
+    color: #fff;
+}
+
+.nav-link.active {
+    background: #243c69;
+    color: #fff;
+    border-left: 3px solid #7189ff;
+}
+
+.logout-link:hover {
+    background: #4a202c;
+    color: #fda4af;
+}
+
+/* Sidebar Footer */
+
+.sidebar-footer {
+    padding: 18px 22px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-footer p {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.sidebar-footer span {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+/* Main Content */
+
+.teacher-main {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Topbar */
+
+.teacher-topbar {
+    height: 76px;
+    padding: 0 30px;
+    background: #0d1729;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.topbar-title h2 {
+    font-size: 18px;
+}
+
+.topbar-title p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+.topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.topbar-avatar {
+    width: 36px;
+    height: 36px;
+}
+
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Content Area */
+
+.teacher-content {
+    width: 100%;
+    max-width: 1600px;
+    padding: 30px;
+    flex: 1;
+}
+
+/* Messages */
+
+.messages-container {
+    margin-bottom: 20px;
+}
+
+.alert-message {
+    padding: 13px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.alert-message.success {
+    background: #064e3b;
+    color: #a7f3d0;
+}
+
+.alert-message.error {
+    background: #7f1d1d;
+    color: #fecaca;
+}
+
+.alert-message.warning {
+    background: #713f12;
+    color: #fde68a;
+}
+
+.alert-message.info {
+    background: #1e3a8a;
+    color: #bfdbfe;
+}
+
+/* Footer */
+
+.teacher-footer {
+    padding: 18px 30px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.teacher-footer p {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Mobile Overlay */
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .teacher-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .teacher-sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .teacher-main {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .teacher-topbar {
+        padding: 0 20px;
+        gap: 15px;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        z-index: 999;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .teacher-topbar {
+        height: 65px;
+        padding: 0 14px;
+    }
+
+    .topbar-title h2 {
+        font-size: 15px;
+    }
+
+    .topbar-title p {
+        display: none;
+    }
+
+    .topbar-user span {
+        display: none;
+    }
+
+    .teacher-content {
+        padding: 18px 14px;
+    }
+
+    .teacher-footer {
+        padding: 15px;
+    }
+}
+.nav-link.active {
+    background: #243c69;
+    color: #fff;
+    border-left: 3px solid #7189ff;
+}
+
+.logout-link {
+    width: 100%;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    background: transparent;
+}
+
+form:has(.logout-link) {
+    width: 100%;
+}

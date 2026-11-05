@@ -1,0 +1,334 @@
+
+/* Attendance Report */
+
+.attendance-container {
+    width: 100%;
+    color: #f1f5f9;
+}
+
+.attendance-container .page-header {
+    margin-bottom: 30px;
+}
+
+.attendance-container .page-header h1 {
+    margin: 15px 0 8px;
+    font-size: 28px;
+}
+
+.attendance-container .page-header p {
+    color: #94a3b8;
+}
+
+.attendance-container .back-link {
+    color: #8bb5ff;
+    font-size: 14px;
+}
+
+.attendance-container .class-card,
+.attendance-container .attendance-panel {
+    background: #111e33;
+    border: 1px solid #263750;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.attendance-container .class-card {
+    background: #263c6d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.attendance-container .eyebrow {
+    color: #c5d8ff;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+}
+
+.attendance-container .class-card h2 {
+    margin: 12px 0 6px;
+    font-size: 23px;
+}
+
+.attendance-container .class-card p {
+    color: #cbdaf4;
+}
+
+.attendance-container .class-icon {
+    font-size: 40px;
+}
+
+.attendance-container .attendance-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.attendance-container .summary-card {
+    background: #111e33;
+    border: 1px solid #263750;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.attendance-container .summary-card span {
+    display: block;
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.attendance-container .summary-card strong {
+    font-size: 27px;
+}
+
+.attendance-container .panel-heading {
+    margin-bottom: 24px;
+}
+
+.attendance-container .panel-heading h2 {
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.attendance-container .panel-heading p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* Date Filter */
+
+.attendance-container .date-filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto auto;
+    align-items: end;
+    gap: 15px;
+    padding: 20px;
+    background: #0d192c;
+    border: 1px solid #263750;
+    border-radius: 12px;
+}
+
+.attendance-container .date-filter-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.attendance-container .date-filter-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #344967;
+    border-radius: 8px;
+    background: #091323;
+    color: #fff;
+    color-scheme: dark;
+}
+
+.attendance-container .filter-btn,
+.attendance-container .clear-filter-btn {
+    padding: 13px 18px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.attendance-container .filter-btn {
+    background: #536dfe;
+    color: #fff;
+}
+
+.attendance-container .clear-filter-btn {
+    background: #172943;
+    border: 1px solid #344967;
+    color: #dbeafe;
+}
+
+/* Export Buttons */
+
+.attendance-container .export-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin: 22px 0;
+}
+
+.attendance-container .export-btn {
+    display: inline-block;
+    padding: 13px 18px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.attendance-container .excel-btn {
+    background: #12845a;
+}
+
+.attendance-container .pdf-btn {
+    background: #c7352b;
+}
+
+/* Search */
+
+.attendance-container .report-search {
+    margin-bottom: 20px;
+}
+
+.attendance-container .report-search input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 9px;
+    background: #091323;
+    border: 1px solid #293b57;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.attendance-container .report-search input:focus {
+    border-color: #536dfe;
+}
+
+/* Report Table */
+
+.attendance-container .report-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.attendance-container .report-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.attendance-container .report-table th {
+    padding: 15px;
+    text-align: left;
+    color: #91b9f0;
+    font-size: 12px;
+    border-bottom: 1px solid #293b57;
+}
+
+.attendance-container .report-table td {
+    padding: 18px 13px;
+    border-bottom: 1px solid #293b57;
+    font-size: 13px;
+}
+
+.attendance-container .report-table tbody tr:hover {
+    background: #1a2b45;
+}
+
+.attendance-container .student-report-link {
+    color: #a9c9ff;
+    font-weight: 600;
+}
+
+.attendance-container .present-text {
+    color: #34d399;
+}
+
+.attendance-container .absent-text {
+    color: #fb7185;
+}
+
+.attendance-container .late-text {
+    color: #fbbf24;
+}
+
+/* Percentage */
+
+.attendance-container .percentage-info {
+    min-width: 150px;
+}
+
+.attendance-container .percentage-info strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #a9c9ff;
+}
+
+.attendance-container .percentage-bar {
+    width: 100%;
+    height: 7px;
+    background: #293b57;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.attendance-container .percentage-fill {
+    width: 0;
+    height: 100%;
+    background: #536dfe;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.attendance-container .empty-report {
+    text-align: center;
+    padding: 35px !important;
+    color: #94a3b8;
+}
+
+/* Footer */
+
+.attendance-container .page-footer {
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .attendance-container .attendance-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .attendance-container .date-filter {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .attendance-container .attendance-summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .attendance-container .summary-card {
+        padding: 15px;
+    }
+
+    .attendance-container .class-card,
+    .attendance-container .attendance-panel {
+        padding: 16px;
+    }
+
+    .attendance-container .class-card h2 {
+        font-size: 18px;
+    }
+
+    .attendance-container .date-filter {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-container .export-actions {
+        flex-direction: column;
+    }
+
+    .attendance-container .export-btn {
+        text-align: center;
+    }
+}

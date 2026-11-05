@@ -1,0 +1,239 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Attendance | AttendEase</title>
+
+    <link rel="stylesheet" href="{% static 'css/attendance.css' %}">
+</head>
+
+<body>
+
+<div class="attendance-container">
+
+    <header class="page-header">
+        <div>
+            <a href="{% url 'attendance_report' assignment.id %}"
+               class="back-link">
+                ← Back to Attendance Report
+            </a>
+
+            <h1>Student Attendance</h1>
+            <p>Individual attendance performance and history.</p>
+        </div>
+    </header>
+
+    <!-- Student Details -->
+    <section class="class-card">
+        <div>
+            <span class="eyebrow">STUDENT DETAILS</span>
+
+            <h2>
+                {{ student.user.get_full_name|default:student.user.username }}
+            </h2>
+
+            <p>Roll Number: {{ student.roll_number }}</p>
+            <p>Class: {{ assignment.classroom }}</p>
+            <p>Subject: {{ assignment.subject.name }}</p>
+        </div>
+
+        <div class="class-icon">👨‍🎓</div>
+    </section>
+
+    <!-- Overall Summary -->
+    <section class="attendance-summary">
+
+        <div class="summary-card">
+            <span>Total Classes</span>
+            <strong>{{ total }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Present</span>
+            <strong>{{ present }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Absent</span>
+            <strong>{{ absent }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Late</span>
+            <strong>{{ late }}</strong>
+        </div>
+
+    </section>
+
+    <!-- Attendance Percentage -->
+    <section class="attendance-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Overall Attendance</h2>
+                <p>Attendance percentage for this subject.</p>
+            </div>
+        </div>
+
+        <div class="percentage-info student-overall">
+
+            <strong>{{ percentage }}%</strong>
+
+            <div class="percentage-bar">
+                <div
+                    class="percentage-fill"
+                    data-percentage="{{ percentage }}"
+                ></div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Monthly Summary -->
+    <section class="attendance-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Monthly Performance</h2>
+                <p>Month-wise attendance statistics.</p>
+            </div>
+        </div>
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>MONTH</th>
+                        <th>PRESENT</th>
+                        <th>ABSENT</th>
+                        <th>LATE</th>
+                        <th>TOTAL</th>
+                        <th>ATTENDANCE</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in monthly_data %}
+
+                    <tr>
+                        <td>
+                            {{ item.month|stringformat:"02d" }}/{{ item.year }}
+                        </td>
+
+                        <td class="present-text">{{ item.present }}</td>
+                        <td class="absent-text">{{ item.absent }}</td>
+                        <td class="late-text">{{ item.late }}</td>
+                        <td>{{ item.total }}</td>
+                        <td>{{ item.percentage }}%</td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="6" class="empty-report">
+                            No monthly attendance records found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- Attendance History -->
+    <section class="attendance-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Attendance History</h2>
+                <p>Date-wise attendance records.</p>
+            </div>
+        </div>
+
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>DATE</th>
+                        <th>DAY</th>
+                        <th>STATUS</th>
+                        <th>REMARKS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr>
+                        <td>{{ record.date|date:"d M Y" }}</td>
+                        <td>{{ record.date|date:"l" }}</td>
+
+                        <td>
+                            {% if record.status == 'present' %}
+                                <span class="present-text">Present</span>
+                            {% elif record.status == 'absent' %}
+                                <span class="absent-text">Absent</span>
+                            {% else %}
+                                <span class="late-text">Late</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ record.remarks|default:"—" }}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="4" class="empty-report">
+                            No attendance history available.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <footer class="page-footer">
+        © 2026 AttendEase. Smart Attendance Management System.
+    </footer>
+
+</div>
+
+<script>
+    document.querySelectorAll(".percentage-fill").forEach(bar => {
+
+        const percentage = Number(bar.dataset.percentage);
+
+        bar.style.width =
+            Math.min(Math.max(percentage, 0), 100) + "%";
+
+    });
+</script>
+
+</body>
+</html>

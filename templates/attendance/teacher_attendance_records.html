@@ -1,0 +1,218 @@
+
+{% extends 'teacher/base_teacher.html' %}
+{% load static %}
+
+{% block title %}Attendance Records | AttendEase{% endblock %}
+{% block page_heading %}Attendance Records{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teacher_attendance_records.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="teacher-records-page">
+
+    <div class="records-heading">
+        <div>
+            <h1>Attendance Records</h1>
+            <p>View and monitor attendance for your assigned classes.</p>
+        </div>
+
+        <div class="records-total">
+            <span>Total Records</span>
+            <strong>{{ statistics.total|default:0 }}</strong>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <section class="records-stats">
+
+        <div class="record-stat-card total">
+            <span>Total Records</span>
+            <strong>{{ statistics.total|default:0 }}</strong>
+        </div>
+
+        <div class="record-stat-card present">
+            <span>Present</span>
+            <strong>{{ statistics.present|default:0 }}</strong>
+        </div>
+
+        <div class="record-stat-card absent">
+            <span>Absent</span>
+            <strong>{{ statistics.absent|default:0 }}</strong>
+        </div>
+
+        <div class="record-stat-card late">
+            <span>Late</span>
+            <strong>{{ statistics.late|default:0 }}</strong>
+        </div>
+
+    </section>
+
+    <!-- Filters -->
+    <section class="records-panel">
+
+        <div class="records-panel-heading">
+            <div>
+                <h2>Filter Attendance</h2>
+                <p>Filter records by date, subject and status.</p>
+            </div>
+        </div>
+
+        <form method="GET" class="records-filter-form">
+
+            <div class="record-filter-field">
+                <label for="date_from">From Date</label>
+                <input
+                    type="date"
+                    id="date_from"
+                    name="date_from"
+                    value="{{ date_from }}"
+                >
+            </div>
+
+            <div class="record-filter-field">
+                <label for="date_to">To Date</label>
+                <input
+                    type="date"
+                    id="date_to"
+                    name="date_to"
+                    value="{{ date_to }}"
+                >
+            </div>
+
+            <div class="record-filter-field">
+                <label for="assignment">Class / Subject</label>
+                <select id="assignment" name="assignment">
+                    <option value="">All Assignments</option>
+
+                    {% for assignment in assignments %}
+                        <option
+                            value="{{ assignment.id }}"
+                            {% if selected_assignment == assignment.id|stringformat:"s" %}selected{% endif %}
+                        >
+                            {{ assignment.classroom.name }}
+                            {{ assignment.classroom.section }} -
+                            {{ assignment.subject.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="record-filter-field">
+                <label for="status">Attendance Status</label>
+                <select id="status" name="status">
+                    <option value="">All Statuses</option>
+                    <option value="present" {% if selected_status == 'present' %}selected{% endif %}>Present</option>
+                    <option value="absent" {% if selected_status == 'absent' %}selected{% endif %}>Absent</option>
+                    <option value="late" {% if selected_status == 'late' %}selected{% endif %}>Late</option>
+                </select>
+            </div>
+
+            <div class="record-filter-actions">
+                <button type="submit" class="records-apply-btn">
+                    Apply Filters
+                </button>
+
+                <a
+                    href="{% url 'teacher_attendance_records' %}"
+                    class="records-reset-btn">
+                    Reset
+                </a>
+            </div>
+
+        </form>
+
+        <!-- Search -->
+        <div class="records-search">
+            <input
+                type="search"
+                id="recordsSearch"
+                placeholder="Search student, roll number, subject or classroom..."
+            >
+        </div>
+
+        <!-- Records Table -->
+        <div class="records-table-wrapper">
+
+            <table class="records-table">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Student</th>
+                        <th>Roll Number</th>
+                        <th>Classroom</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr class="record-row">
+
+                        <td>{{ record.date|date:"d M Y" }}</td>
+
+                        <td class="record-student">
+                            {{ record.student.user.get_full_name|default:record.student.user.username }}
+                        </td>
+
+                        <td>{{ record.student.roll_number }}</td>
+
+                        <td>
+                            {{ record.assignment.classroom.name }}
+                            {{ record.assignment.classroom.section }}
+                        </td>
+
+                        <td>{{ record.assignment.subject.name }}</td>
+
+                        <td>
+                            <span class="record-status {{ record.status }}">
+                                {{ record.get_status_display }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ record.remarks|default:"—" }}
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="records-empty">
+                            No attendance records found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <div class="records-no-search" id="recordsNoSearch" hidden>
+                No matching records found.
+            </div>
+
+        </div>
+
+        <div class="records-footer-info">
+            Showing {{ records|length }} records
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/teacher_attendance_records.js' %}"></script>
+{% endblock %}

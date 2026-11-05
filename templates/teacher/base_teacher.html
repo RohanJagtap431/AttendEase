@@ -1,0 +1,143 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Teacher Dashboard | AttendEase{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/teacher_base.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<div class="teacher-layout">
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="teacher-sidebar" id="teacherSidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendEase</h2>
+                <p>Teacher Portal</p>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                {{ request.user.username|first|upper }}
+            </div>
+
+            <div class="profile-info">
+                <h3>{{ request.user.get_full_name|default:request.user.username }}</h3>
+                <p>Teacher</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-navigation">
+
+            <p class="nav-heading">MAIN MENU</p>
+
+            <a href="{% url 'teacher_dashboard' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <a href="{% url 'teacher_assignments' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'teacher_assignments' %}active{% endif %}">
+                <span>▤</span>
+                My Assignments
+            </a>
+
+            <a href="{% url 'teacher_attendance_records' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'teacher_attendance_records' %}active{% endif %}">
+                <span>✓</span>
+                Attendance Records
+            </a>
+
+            <p class="nav-heading">ACCOUNT</p>
+
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="nav-link logout-link">
+                    <span>↪</span>
+                    Logout
+                </button>
+            </form>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>AttendEase</p>
+            <span>Teacher Portal</span>
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="teacher-main">
+
+        <header class="teacher-topbar">
+
+            <button type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Toggle sidebar"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <div class="topbar-title">
+                <h2>{% block page_heading %}Dashboard{% endblock %}</h2>
+                <p>Manage your classes and attendance</p>
+            </div>
+
+            <div class="topbar-user">
+                <span>{{ request.user.username }}</span>
+                <div class="topbar-avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+            </div>
+
+        </header>
+
+        <div class="teacher-content">
+
+            {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="alert-message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+        <footer class="teacher-footer">
+            <p>© {% now "Y" %} AttendEase. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{% static 'js/teacher_base.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

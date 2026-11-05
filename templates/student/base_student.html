@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}AttendEase Student Portal{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/student_base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<div class="student-layout">
+
+    <!-- Sidebar -->
+    <aside class="student-sidebar" id="studentSidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>AttendEase</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+
+            <p class="menu-heading">MAIN MENU</p>
+
+            <a href="{% url 'student_dashboard' %}"
+               class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <p class="menu-heading">ACADEMICS</p>
+
+            <a href="{% url 'student_my_attendance' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'student_my_attendance' %}active{% endif %}">
+                <span>✓</span>
+                My Attendance
+            </a>
+
+            
+
+            <p class="menu-heading">ACCOUNT</p>
+
+            <a href="{% url 'student_profile' %}"
+            class="nav-link {% if request.resolver_match.url_name == 'student_profile' %}active{% endif %}">
+                <span>◉</span>
+                My Profile
+            </a>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="nav-link logout-link">
+                    <span>↪</span>
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="student-main">
+
+        <header class="student-topbar">
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <div class="topbar-title">
+                <h3>Student Dashboard</h3>
+                <p>Manage your academic activities</p>
+            </div>
+
+            <div class="topbar-profile">
+                <div class="profile-avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+
+                <div class="profile-info">
+                    <strong>
+                        {{ request.user.first_name|default:request.user.username }}
+                    </strong>
+                    <span>Student</span>
+                </div>
+            </div>
+
+        </header>
+
+        <section class="student-content">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+        <footer class="student-footer">
+            © {% now "Y" %} AttendEase. All rights reserved.
+        </footer>
+
+    </main>
+
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<script src="{% static 'js/student_base.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

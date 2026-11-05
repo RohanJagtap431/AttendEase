@@ -1,0 +1,189 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Attendance Monitoring | AttendEase{% endblock %}
+{% block page_title %}Attendance Monitoring{% endblock %}
+
+{% block content %}
+
+<div class="admin-attendance-heading">
+    <div>
+        <h2>Attendance Monitoring</h2>
+        <p>Monitor attendance records across all classrooms.</p>
+    </div>
+</div>
+
+<!-- STATISTICS -->
+
+<div class="admin-attendance-stats">
+
+    <div class="attendance-stat-card total">
+        <span>Total Records</span>
+        <h3>{{ statistics.total|default:0 }}</h3>
+    </div>
+
+    <div class="attendance-stat-card present">
+        <span>Present</span>
+        <h3>{{ statistics.present|default:0 }}</h3>
+    </div>
+
+    <div class="attendance-stat-card absent">
+        <span>Absent</span>
+        <h3>{{ statistics.absent|default:0 }}</h3>
+    </div>
+
+    <div class="attendance-stat-card late">
+        <span>Late</span>
+        <h3>{{ statistics.late|default:0 }}</h3>
+    </div>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="admin-attendance-filter">
+
+    <h3>Filter Attendance</h3>
+
+    <form method="GET" class="attendance-filter-form">
+
+        <div class="attendance-filter-field">
+            <label for="date">Select Date</label>
+            <input
+                type="date"
+                id="date"
+                name="date"
+                value="{{ selected_date|date:'Y-m-d' }}"
+            >
+        </div>
+
+        <div class="attendance-filter-field">
+            <label for="classroom">Classroom</label>
+            <select name="classroom" id="classroom">
+                <option value="">All Classrooms</option>
+
+                {% for classroom in classrooms %}
+                <option value="{{ classroom.id }}"
+                    {% if selected_classroom == classroom.id|stringformat:"s" %}selected{% endif %}>
+                    {{ classroom.name }}
+                    {% if classroom.section %}- {{ classroom.section }}{% endif %}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="attendance-filter-field">
+            <label for="teacher">Teacher</label>
+            <select name="teacher" id="teacher">
+                <option value="">All Teachers</option>
+
+                {% for teacher in teachers %}
+                <option value="{{ teacher.id }}"
+                    {% if selected_teacher == teacher.id|stringformat:"s" %}selected{% endif %}>
+                    {{ teacher.user.get_full_name|default:teacher.user.username }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="attendance-filter-actions">
+            <button type="submit" class="attendance-filter-btn">
+                Apply Filters
+            </button>
+
+            <a href="{% url 'admin_attendance_monitor' %}"
+               class="attendance-reset-btn">
+                Reset
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- ATTENDANCE RECORDS -->
+
+<div class="admin-attendance-table-section">
+
+    <div class="admin-attendance-table-heading">
+        <div>
+            <h3>Attendance Records</h3>
+            <p>Detailed student attendance information.</p>
+        </div>
+
+        <span>{{ records|length }} Records</span>
+    </div>
+
+    <div class="admin-attendance-table-container">
+
+        <table class="admin-attendance-table">
+
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Student</th>
+                    <th>Roll Number</th>
+                    <th>Classroom</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Status</th>
+                    <th>Marked By</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for record in records %}
+                <tr>
+
+                    <td>{{ record.date|date:"d M Y" }}</td>
+
+                    <td>
+                        <strong>
+                            {{ record.student.user.get_full_name|default:record.student.user.username }}
+                        </strong>
+                    </td>
+
+                    <td>{{ record.student.roll_number }}</td>
+
+                    <td>{{ record.assignment.classroom.name }}</td>
+
+                    <td>{{ record.assignment.subject.name }}</td>
+
+                    <td>
+                        {{ record.assignment.teacher.user.get_full_name|default:record.assignment.teacher.user.username }}
+                    </td>
+
+                    <td>
+                        {% if record.status == 'present' %}
+                            <span class="attendance-status present">Present</span>
+                        {% elif record.status == 'absent' %}
+                            <span class="attendance-status absent">Absent</span>
+                        {% else %}
+                            <span class="attendance-status late">Late</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ record.marked_by.get_full_name|default:record.marked_by.username }}
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="attendance-no-records">
+                        No attendance records found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

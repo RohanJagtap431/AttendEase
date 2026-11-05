@@ -1,0 +1,108 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Add Teacher | AttendEase{% endblock %}
+
+{% block page_title %}Add New Teacher{% endblock %}
+
+{% block page_subtitle %}
+Create a teacher login account and profile.
+{% endblock %}
+
+{% block content %}
+
+<section class="teacher-form-card">
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <h2>Personal Information</h2>
+
+        <div class="teacher-form-grid">
+
+            <div class="teacher-field">
+                <label>First Name *</label>
+                <input type="text" name="first_name"
+                       value="{{ request.POST.first_name|default:'' }}" required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Last Name</label>
+                <input type="text" name="last_name"
+                       value="{{ request.POST.last_name|default:'' }}">
+            </div>
+
+            <div class="teacher-field">
+                <label>Username *</label>
+                <input type="text" name="username"
+                       value="{{ request.POST.username|default:'' }}"
+                       autocomplete="username" required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Email *</label>
+                <input type="email" name="email"
+                       value="{{ request.POST.email|default:'' }}" required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Phone</label>
+                <input type="tel" name="phone"
+                       value="{{ request.POST.phone|default:'' }}">
+            </div>
+
+            <div class="teacher-field">
+                <label>Employee ID *</label>
+                <input type="text" name="employee_id"
+                       value="{{ request.POST.employee_id|default:'' }}" required>
+            </div>
+
+            <div class="teacher-field full-width">
+                <label>Department</label>
+                <input type="text" name="department"
+                       placeholder="e.g. Computer Science"
+                       value="{{ request.POST.department|default:'' }}">
+            </div>
+
+        </div>
+
+        <h2 class="teacher-password-heading">Login Credentials</h2>
+
+        <div class="teacher-form-grid">
+
+            <div class="teacher-field">
+                <label>Password *</label>
+                <input type="password" name="password"
+                       minlength="8" autocomplete="new-password" required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Confirm Password *</label>
+                <input type="password" name="confirm_password"
+                       minlength="8" autocomplete="new-password" required>
+            </div>
+
+        </div>
+
+        <p class="teacher-form-note">
+            The teacher can use this username and password to log in.
+            They should change the password after their first login.
+        </p>
+
+        <div class="teacher-form-actions">
+
+            <a href="{% url 'manage_teachers' %}" class="teacher-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="teacher-add-btn">
+                Create Teacher Account
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

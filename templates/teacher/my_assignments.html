@@ -1,0 +1,122 @@
+
+{% extends 'teacher/base_teacher.html' %}
+{% load static %}
+
+{% block title %}My Assignments | AttendEase{% endblock %}
+
+{% block page_heading %}My Assignments{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/teacher.css' %}">
+<link rel="stylesheet" href="{% static 'css/my_assignments.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="assignments-page">
+
+    <!-- Page Header -->
+    <div class="assignments-header">
+        <div>
+            <h1>My Assignments</h1>
+            <p>Manage your assigned classrooms and subjects.</p>
+        </div>
+
+        <div class="assignment-total">
+            <span>Total Assignments</span>
+            <strong>{{ total_assignments }}</strong>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="assignment-search">
+        <input
+            type="search"
+            id="assignmentSearch"
+            placeholder="Search by subject, classroom or academic year..."
+        >
+    </div>
+
+    <!-- Assignment Cards -->
+    <section class="assignments-section">
+
+        <div class="assignments-grid">
+
+            {% for assignment in assignments %}
+
+                <article class="my-assignment-card">
+
+                    <div class="assignment-card-top">
+                        <div class="assignment-icon">📚</div>
+                        <span class="assignment-label">Assigned</span>
+                    </div>
+
+                    <h2>{{ assignment.subject.name }}</h2>
+
+                    <div class="assignment-details">
+
+                        <div class="detail-row">
+                            <span>Classroom</span>
+                            <strong>
+                                {{ assignment.classroom.name }}
+                                {{ assignment.classroom.section }}
+                            </strong>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Academic Year</span>
+                            <strong>{{ assignment.classroom.academic_year }}</strong>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Subject Code</span>
+                            <strong>{{ assignment.subject.code }}</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="assignment-actions">
+
+                        <a
+                            href="{% url 'mark_attendance' assignment.id %}"
+                            class="assignment-primary-btn">
+                            ✓ Mark Attendance
+                        </a>
+
+                        <a
+                            href="{% url 'attendance_report' assignment.id %}"
+                            class="assignment-secondary-btn">
+                            View Attendance Report
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="assignment-empty">
+                    <div>📚</div>
+                    <h2>No Assignments Found</h2>
+                    <p>You don't have any assigned classes or subjects yet.</p>
+                    <p>Please contact your administrator.</p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="search-empty" id="searchEmpty" hidden>
+            <h3>No matching assignments found</h3>
+            <p>Try searching with another subject or classroom name.</p>
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/my_assignments.js' %}"></script>
+{% endblock %}

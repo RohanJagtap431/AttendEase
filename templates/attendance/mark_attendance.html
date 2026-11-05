@@ -1,0 +1,268 @@
+
+{% extends 'teacher/base_teacher.html' %}
+{% load static %}
+{% load attendance_tags %}
+
+{% block title %}Mark Attendance | AttendEase{% endblock %}
+
+{% block page_heading %}Mark Attendance{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/attendance.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="attendance-container">
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div>
+            <a href="{% url 'teacher_dashboard' %}" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+            <h1>Mark Attendance</h1>
+            <p>Manage student attendance for your assigned subject.</p>
+        </div>
+
+        <div class="teacher-badge">
+            <span class="teacher-avatar">
+                {{ request.user.username|first|upper }}
+            </span>
+
+            <span>
+                {{ request.user.get_full_name|default:request.user.username }}
+            </span>
+        </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Class Details -->
+    <section class="class-card">
+
+        <div>
+            <span class="eyebrow">CLASS DETAILS</span>
+
+            <h2>{{ assignment.classroom }}</h2>
+
+            <p>{{ assignment.subject.name }}</p>
+        </div>
+
+        <div class="class-icon">📚</div>
+
+    </section>
+
+    <!-- Attendance Summary -->
+    <section class="attendance-summary">
+
+        <div class="summary-card">
+            <span>Total Students</span>
+            <strong id="totalCount">{{ students|length }}</strong>
+        </div>
+
+        <div class="summary-card present-summary">
+            <span>Present</span>
+            <strong id="presentCount">0</strong>
+        </div>
+
+        <div class="summary-card absent-summary">
+            <span>Absent</span>
+            <strong id="absentCount">0</strong>
+        </div>
+
+        <div class="summary-card late-summary">
+            <span>Late</span>
+            <strong id="lateCount">0</strong>
+        </div>
+
+    </section>
+
+    <!-- Attendance Panel -->
+    <section class="attendance-panel">
+
+        <div class="panel-heading">
+
+            <div>
+                <h2>Student Attendance</h2>
+                <p>Select the attendance status for each student.</p>
+            </div>
+
+            <form method="GET" class="date-form">
+
+                <label for="date">Attendance Date</label>
+
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value="{{ selected_date|date:'Y-m-d' }}"
+                    required
+                >
+
+                <button type="submit">Load</button>
+
+            </form>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+
+            <button
+                type="button"
+                id="allPresentBtn"
+                class="quick-btn">
+                ✓ Mark All Present
+            </button>
+
+            <button
+                type="button"
+                id="allAbsentBtn"
+                class="quick-btn secondary">
+                Mark All Absent
+            </button>
+
+        </div>
+
+        <!-- Attendance Form -->
+        <form method="POST" id="attendanceForm">
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="date"
+                value="{{ selected_date|date:'Y-m-d' }}"
+            >
+
+            <div class="student-list">
+
+                {% for student in students %}
+
+                    {% with record=existing_records|get_item:student.id %}
+
+                    <article class="student-row" data-student-row>
+
+                        <!-- Student Details -->
+                        <div class="student-details">
+
+                            <div class="student-avatar">
+                                {{ student.user.username|first|upper }}
+                            </div>
+
+                            <div class="student-info">
+
+                                <strong>
+                                    {{ student.user.get_full_name|default:student.user.username }}
+                                </strong>
+
+                                <small>
+                                    Roll No: {{ student.roll_number }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Attendance Status -->
+                        <div class="status-options">
+
+                            <input
+                                type="hidden"
+                                class="status-input"
+                                name="status_{{ student.id }}"
+                                value="{{ record.status|default:'present' }}"
+                            >
+
+                            <button
+                                type="button"
+                                class="status-btn present-btn"
+                                data-status="present">
+                                Present
+                            </button>
+
+                            <button
+                                type="button"
+                                class="status-btn absent-btn"
+                                data-status="absent">
+                                Absent
+                            </button>
+
+                            <button
+                                type="button"
+                                class="status-btn late-btn"
+                                data-status="late">
+                                Late
+                            </button>
+
+                        </div>
+
+                        <!-- Remarks -->
+                        <input
+                            type="text"
+                            class="remarks-input"
+                            name="remarks_{{ student.id }}"
+                            maxlength="255"
+                            placeholder="Remarks (optional)"
+                            value="{{ record.remarks|default:'' }}"
+                        >
+
+                    </article>
+
+                    {% endwith %}
+
+                {% empty %}
+
+                    <div class="empty-state">
+                        <div>👨‍🎓</div>
+
+                        <h3>No Students Found</h3>
+
+                        <p>
+                            There are no active students in this classroom.
+                        </p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- Save Attendance -->
+            {% if students %}
+
+                <div class="save-section">
+
+                    <p>Review all statuses before saving.</p>
+
+                    <button type="submit" class="save-btn">
+                        Save Attendance <span>→</span>
+                    </button>
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </section>
+
+    <footer class="page-footer">
+        © {% now "Y" %} AttendEase. Smart Attendance Management System.
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/attendance.js' %}"></script>
+{% endblock %}

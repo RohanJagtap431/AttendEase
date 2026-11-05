@@ -1,0 +1,78 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Edit Classroom | AttendEase{% endblock %}
+
+{% block page_title %}Edit Classroom{% endblock %}
+
+{% block content %}
+
+<div class="student-form-card">
+
+    <div class="student-form-heading">
+        <div>
+            <h2>Edit Classroom Details</h2>
+            <p>Update classroom information and academic year.</p>
+        </div>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="student-form-grid">
+
+            <div class="student-field">
+                <label for="name">Classroom Name *</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ classroom.name }}"
+                    placeholder="Example: B.Sc. Computer Science"
+                    maxlength="50"
+                    required
+                >
+            </div>
+
+            <div class="student-field">
+                <label for="section">Section</label>
+                <input
+                    type="text"
+                    id="section"
+                    name="section"
+                    value="{{ classroom.section }}"
+                    placeholder="Example: A"
+                    maxlength="10"
+                >
+            </div>
+
+            <div class="student-field">
+                <label for="academic_year">Academic Year *</label>
+                <input
+                    type="text"
+                    id="academic_year"
+                    name="academic_year"
+                    value="{{ classroom.academic_year }}"
+                    placeholder="Example: 2026-2027"
+                    maxlength="20"
+                    required
+                >
+            </div>
+
+        </div>
+
+        <div class="student-form-actions">
+            <a href="{% url 'manage_classrooms' %}" class="student-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="student-submit-btn">
+                Update Classroom
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

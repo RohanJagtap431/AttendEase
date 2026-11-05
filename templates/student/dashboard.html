@@ -1,0 +1,149 @@
+{% extends 'student/base_student.html' %}
+{% load static %}
+
+{% block title %}Student Dashboard | AttendEase{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="student-dashboard">
+
+    <div class="welcome-section">
+        <div>
+            <span class="welcome-label">STUDENT PORTAL</span>
+            <h1>Welcome, {{ request.user.first_name|default:request.user.username }} 👋</h1>
+            <p>Here is your academic and attendance overview.</p>
+        </div>
+
+        <div class="student-class">
+            <span>My Class</span>
+            <strong>{{ student.classroom.name }} {{ student.classroom.section }}</strong>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon blue">▤</div>
+            <div>
+                <span>Total Classes</span>
+                <h2>{{ statistics.total }}</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon green">✓</div>
+            <div>
+                <span>Present</span>
+                <h2>{{ statistics.present }}</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon red">✕</div>
+            <div>
+                <span>Absent</span>
+                <h2>{{ statistics.absent }}</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon orange">◷</div>
+            <div>
+                <span>Late</span>
+                <h2>{{ statistics.late }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Attendance Percentage -->
+
+    <div class="attendance-overview">
+
+        <div class="section-heading">
+            <div>
+                <h2>Attendance Overview</h2>
+                <p>Your overall attendance performance</p>
+            </div>
+
+            <span class="percentage-value">
+                {{ attendance_percentage }}%
+            </span>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill"
+                 style="width: {{ attendance_percentage }}%;">
+            </div>
+        </div>
+
+        <p class="attendance-note">
+            Present + Late attendance is counted as attended.
+        </p>
+
+    </div>
+
+    <!-- Recent Attendance -->
+
+    <div class="recent-section">
+
+        <div class="section-heading">
+            <div>
+                <h2>Recent Attendance</h2>
+                <p>Your latest attendance records</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table class="attendance-table">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for record in recent_records %}
+                    <tr>
+                        <td>{{ record.date|date:"d M Y" }}</td>
+                        <td>{{ record.assignment.subject.name }}</td>
+                        <td>{{ record.assignment.classroom.name }}</td>
+
+                        <td>
+                            <span class="status-badge {{ record.status }}">
+                                {{ record.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-message">
+                            No attendance records available yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

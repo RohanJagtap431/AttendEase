@@ -1,0 +1,234 @@
+
+{% extends 'teacher/base_teacher.html' %}
+{% load static %}
+
+{% block title %}Attendance Report | AttendEase{% endblock %}
+
+{% block page_heading %}Attendance Report{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/attendance.css' %}">
+<link rel="stylesheet" href="{% static 'css/attendance_report.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="attendance-container">
+
+    <header class="page-header">
+        <div>
+            <a href="{% url 'teacher_dashboard' %}" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+            <h1>Attendance Report</h1>
+            <p>Student attendance performance and percentage.</p>
+        </div>
+    </header>
+
+    <!-- Class Details -->
+    <section class="class-card">
+        <div>
+            <span class="eyebrow">CLASS DETAILS</span>
+            <h2>{{ assignment.classroom }}</h2>
+            <p>{{ assignment.subject.name }}</p>
+        </div>
+
+        <div class="class-icon">📊</div>
+    </section>
+
+    <!-- Attendance Summary -->
+    <section class="attendance-summary">
+
+        <div class="summary-card">
+            <span>Total Students</span>
+            <strong>{{ total_students }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Students 75% & Above</span>
+            <strong>{{ above_75 }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>Students Below 75%</span>
+            <strong>{{ below_75 }}</strong>
+        </div>
+
+        <div class="summary-card">
+            <span>No Records</span>
+            <strong>{{ no_records }}</strong>
+        </div>
+
+    </section>
+
+    <!-- Student Performance -->
+    <section class="attendance-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Student Performance</h2>
+                <p>Subject-wise attendance details.</p>
+            </div>
+        </div>
+
+        <!-- Date Filter -->
+        <form method="GET" class="date-filter">
+
+            <div class="date-filter-group">
+                <label for="date_from">From Date</label>
+
+                <input
+                    type="date"
+                    id="date_from"
+                    name="date_from"
+                    value="{{ date_from }}"
+                >
+            </div>
+
+            <div class="date-filter-group">
+                <label for="date_to">To Date</label>
+
+                <input
+                    type="date"
+                    id="date_to"
+                    name="date_to"
+                    value="{{ date_to }}"
+                >
+            </div>
+
+            <button type="submit" class="filter-btn">
+                Apply Filter
+            </button>
+
+            <a
+                href="{% url 'attendance_report' assignment.id %}"
+                class="clear-filter-btn">
+                Clear Filter
+            </a>
+
+        </form>
+
+        <!-- Export Actions -->
+        <div class="export-actions">
+
+            <a
+                href="{% url 'export_attendance_excel' assignment.id %}?date_from={{ date_from }}&date_to={{ date_to }}"
+                class="export-btn excel-btn">
+                📊 Export Excel
+            </a>
+
+            <a
+                href="{% url 'export_attendance_pdf' assignment.id %}?date_from={{ date_from }}&date_to={{ date_to }}"
+                class="export-btn pdf-btn">
+                📄 Export PDF
+            </a>
+
+        </div>
+
+        <!-- Student Search -->
+        <div class="report-search">
+            <input
+                type="search"
+                id="studentSearch"
+                placeholder="Search student by name or roll number..."
+            >
+        </div>
+
+        <!-- Report Table -->
+        <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+                <thead>
+                    <tr>
+                        <th>STUDENT</th>
+                        <th>ROLL NO</th>
+                        <th>PRESENT</th>
+                        <th>ABSENT</th>
+                        <th>LATE</th>
+                        <th>TOTAL</th>
+                        <th>ATTENDANCE</th>
+                    </tr>
+                </thead>
+
+                <tbody id="reportBody">
+
+                    {% for item in report_data %}
+
+                    <tr class="report-row">
+
+                        <td>
+                            <a
+                                href="{% url 'student_attendance_report' assignment.id item.student.id %}"
+                                class="student-report-link">
+                                {{ item.student.user.get_full_name|default:item.student.user.username }}
+                            </a>
+                        </td>
+
+                        <td>{{ item.student.roll_number }}</td>
+
+                        <td class="present-text">
+                            {{ item.present }}
+                        </td>
+
+                        <td class="absent-text">
+                            {{ item.absent }}
+                        </td>
+
+                        <td class="late-text">
+                            {{ item.late }}
+                        </td>
+
+                        <td>{{ item.total }}</td>
+
+                        <td>
+                            <div class="percentage-info">
+
+                                {% if item.total == 0 %}
+                                    <strong>No Records</strong>
+                                {% else %}
+                                    <strong>{{ item.percentage }}%</strong>
+                                {% endif %}
+
+                                <div class="percentage-bar">
+                                    <div
+                                        class="percentage-fill"
+                                        data-percentage="{{ item.percentage }}">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="empty-report">
+                            No students found in this class.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <footer class="page-footer">
+        © {% now "Y" %} AttendEase. Smart Attendance Management System.
+    </footer>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/attendance_report.js' %}"></script>
+{% endblock %}

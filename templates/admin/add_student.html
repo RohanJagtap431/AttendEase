@@ -1,0 +1,172 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Add Student | AttendEase{% endblock %}
+
+{% block page_title %}Add New Student{% endblock %}
+
+{% block page_subtitle %}
+Create a student login account and assign classroom details.
+{% endblock %}
+
+{% block content %}
+
+<section class="student-form-card">
+
+    <div class="student-form-heading">
+        <h2>Student Information</h2>
+        <p>Enter the student's personal and academic details.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="student-form-grid">
+
+            <!-- First Name -->
+            <div class="student-field">
+                <label>First Name *</label>
+                <input type="text" name="first_name"
+                       placeholder="Enter first name"
+                       value="{{ request.POST.first_name|default:'' }}"
+                       autocomplete="given-name"
+                       required>
+            </div>
+
+            <!-- Last Name -->
+            <div class="student-field">
+                <label>Last Name</label>
+                <input type="text" name="last_name"
+                       placeholder="Enter last name"
+                       value="{{ request.POST.last_name|default:'' }}"
+                       autocomplete="family-name">
+            </div>
+
+            <!-- Username -->
+            <div class="student-field">
+                <label>Username *</label>
+                <input type="text" name="username"
+                       placeholder="Create username"
+                       value="{{ request.POST.username|default:'' }}"
+                       autocomplete="off"
+                       required>
+            </div>
+
+            <!-- Email -->
+            <div class="student-field">
+                <label>Email *</label>
+                <input type="email" name="email"
+                       placeholder="Enter email address"
+                       value="{{ request.POST.email|default:'' }}"
+                       autocomplete="off"
+                       required>
+            </div>
+
+            <!-- Phone -->
+            <div class="student-field">
+                <label>Phone</label>
+                <input type="tel" name="phone"
+                       placeholder="Enter phone number"
+                       value="{{ request.POST.phone|default:'' }}">
+            </div>
+
+            <!-- Roll Number -->
+            <div class="student-field">
+                <label>Roll Number *</label>
+                <input type="text" name="roll_number"
+                       placeholder="Enter roll number"
+                       value="{{ request.POST.roll_number|default:'' }}"
+                       required>
+            </div>
+
+            <!-- Classroom -->
+            <div class="student-field">
+                <label>Classroom *</label>
+                <select name="classroom" required>
+                    <option value="">Select Classroom</option>
+
+                    {% for classroom in classrooms %}
+                        <option value="{{ classroom.id }}"
+                            {% if request.POST.classroom == classroom.id|stringformat:"s" %}
+                                selected
+                            {% endif %}>
+                            {{ classroom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Admission Date -->
+            <div class="student-field">
+                <label>Admission Date *</label>
+                <input type="date" name="admission_date"
+                       value="{{ request.POST.admission_date|default:'' }}"
+                       required>
+            </div>
+
+            <!-- Parent Name -->
+            <div class="student-field">
+                <label>Parent Name</label>
+                <input type="text" name="parent_name"
+                       placeholder="Enter parent name"
+                       value="{{ request.POST.parent_name|default:'' }}">
+            </div>
+
+            <!-- Parent Phone -->
+            <div class="student-field">
+                <label>Parent Phone</label>
+                <input type="tel" name="parent_phone"
+                       placeholder="Enter parent phone"
+                       value="{{ request.POST.parent_phone|default:'' }}">
+            </div>
+
+        </div>
+
+        <!-- Login Credentials -->
+        <div class="student-login-heading">
+            <h2>Login Credentials</h2>
+            <p>Student will use these credentials to log in.</p>
+        </div>
+
+        <div class="student-form-grid">
+
+            <!-- Password -->
+            <div class="student-field">
+                <label>Password *</label>
+                <input type="password" name="password"
+                       placeholder="Enter password"
+                       autocomplete="new-password"
+                       minlength="8"
+                       required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="student-field">
+                <label>Confirm Password *</label>
+                <input type="password" name="confirm_password"
+                       placeholder="Confirm password"
+                       autocomplete="new-password"
+                       minlength="8"
+                       required>
+            </div>
+
+        </div>
+
+        <div class="student-form-actions">
+
+            <a href="{% url 'manage_students' %}"
+               class="student-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="student-submit-btn">
+                Create Student Account
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

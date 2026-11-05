@@ -1,0 +1,183 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Edit Student | AttendEase{% endblock %}
+
+{% block page_title %}Edit Student{% endblock %}
+
+{% block page_subtitle %}
+Update student personal and academic information.
+{% endblock %}
+
+{% block content %}
+
+<section class="student-form-card">
+
+    <div class="student-form-heading">
+        <h2>Edit Student Information</h2>
+        <p>Update the student's details below.</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="student-form-grid">
+
+            <!-- First Name -->
+            <div class="student-field">
+                <label>First Name *</label>
+                <input
+                    type="text"
+                    name="first_name"
+                    value="{{ student.user.first_name }}"
+                    placeholder="Enter first name"
+                    required
+                >
+            </div>
+
+            <!-- Last Name -->
+            <div class="student-field">
+                <label>Last Name</label>
+                <input
+                    type="text"
+                    name="last_name"
+                    value="{{ student.user.last_name }}"
+                    placeholder="Enter last name"
+                >
+            </div>
+
+            <!-- Email -->
+            <div class="student-field">
+                <label>Email *</label>
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ student.user.email }}"
+                    placeholder="Enter email address"
+                    required
+                >
+            </div>
+
+            <!-- Phone -->
+            <div class="student-field">
+                <label>Phone</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    value="{{ student.user.phone|default:'' }}"
+                    placeholder="Enter phone number"
+                >
+            </div>
+
+            <!-- Roll Number -->
+            <div class="student-field">
+                <label>Roll Number *</label>
+                <input
+                    type="text"
+                    name="roll_number"
+                    value="{{ student.roll_number }}"
+                    placeholder="Enter roll number"
+                    required
+                >
+            </div>
+
+            <!-- Classroom -->
+            <div class="student-field">
+                <label>Classroom *</label>
+
+                <select name="classroom" required>
+
+                    <option value="">Select Classroom</option>
+
+                    {% for classroom in classrooms %}
+                        <option
+                            value="{{ classroom.id }}"
+                            {% if classroom.id == student.classroom_id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ classroom }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <!-- Admission Date -->
+            <div class="student-field">
+                <label>Admission Date *</label>
+                <input
+                    type="date"
+                    name="admission_date"
+                    value="{{ student.admission_date|date:'Y-m-d' }}"
+                    required
+                >
+            </div>
+
+            <!-- Parent Name -->
+            <div class="student-field">
+                <label>Parent Name</label>
+                <input
+                    type="text"
+                    name="parent_name"
+                    value="{{ student.parent_name }}"
+                    placeholder="Enter parent name"
+                >
+            </div>
+
+            <!-- Parent Phone -->
+            <div class="student-field">
+                <label>Parent Phone</label>
+                <input
+                    type="tel"
+                    name="parent_phone"
+                    value="{{ student.parent_phone }}"
+                    placeholder="Enter parent phone"
+                >
+            </div>
+
+        </div>
+
+        <!-- Login Information -->
+        <div class="student-login-heading">
+            <h2>Login Information</h2>
+            <p>Username cannot be changed from this form.</p>
+        </div>
+
+        <div class="student-form-grid">
+
+            <div class="student-field">
+                <label>Username</label>
+                <input
+                    type="text"
+                    value="{{ student.user.username }}"
+                    disabled
+                >
+            </div>
+
+        </div>
+
+        <!-- Form Actions -->
+        <div class="student-form-actions">
+
+            <a
+                href="{% url 'manage_students' %}"
+                class="student-cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="student-submit-btn"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

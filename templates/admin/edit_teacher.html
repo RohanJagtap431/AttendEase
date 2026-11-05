@@ -1,0 +1,85 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Edit Teacher | AttendEase{% endblock %}
+
+{% block page_title %}Edit Teacher{% endblock %}
+
+{% block page_subtitle %}
+Update teacher account and profile information.
+{% endblock %}
+
+{% block content %}
+
+<section class="teacher-form-card">
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <h2>Personal Information</h2>
+
+        <div class="teacher-form-grid">
+
+            <div class="teacher-field">
+                <label>First Name *</label>
+                <input type="text" name="first_name"
+                       value="{{ request.POST.first_name|default:teacher.user.first_name }}"
+                       required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Last Name</label>
+                <input type="text" name="last_name"
+                       value="{{ request.POST.last_name|default:teacher.user.last_name }}">
+            </div>
+
+            <div class="teacher-field">
+                <label>Username</label>
+                <input type="text" value="{{ teacher.user.username }}" disabled>
+            </div>
+
+            <div class="teacher-field">
+                <label>Email *</label>
+                <input type="email" name="email"
+                       value="{{ request.POST.email|default:teacher.user.email }}"
+                       required>
+            </div>
+
+            <div class="teacher-field">
+                <label>Phone</label>
+                <input type="tel" name="phone"
+                       value="{{ request.POST.phone|default:teacher.user.phone }}">
+            </div>
+
+            <div class="teacher-field">
+                <label>Employee ID *</label>
+                <input type="text" name="employee_id"
+                       value="{{ request.POST.employee_id|default:teacher.employee_id }}"
+                       required>
+            </div>
+
+            <div class="teacher-field full-width">
+                <label>Department</label>
+                <input type="text" name="department"
+                       value="{{ request.POST.department|default:teacher.department }}">
+            </div>
+
+        </div>
+
+        <div class="teacher-form-actions">
+
+            <a href="{% url 'manage_teachers' %}" class="teacher-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit" class="teacher-add-btn">
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Add Classroom | AttendEase{% endblock %}
+
+{% block page_title %}Add New Classroom{% endblock %}
+
+{% block page_subtitle %}
+Create a new classroom and assign its academic year.
+{% endblock %}
+
+{% block content %}
+
+<section class="student-form-card">
+
+    <div class="student-form-heading">
+        <h2>Classroom Information</h2>
+        <p>Enter the classroom details below.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="student-form-grid">
+
+            <div class="student-field">
+                <label>Classroom Name *</label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="e.g. B.Sc. Computer Science"
+                    value="{{ request.POST.name|default:'' }}"
+                    required
+                >
+            </div>
+
+            <div class="student-field">
+                <label>Section</label>
+                <input
+                    type="text"
+                    name="section"
+                    placeholder="e.g. A"
+                    value="{{ request.POST.section|default:'' }}"
+                >
+            </div>
+
+            <div class="student-field">
+                <label>Academic Year *</label>
+                <input
+                    type="text"
+                    name="academic_year"
+                    placeholder="e.g. 2026-27"
+                    value="{{ request.POST.academic_year|default:'' }}"
+                    required
+                >
+            </div>
+
+        </div>
+
+        <div class="student-form-actions">
+
+            <a
+                href="{% url 'manage_classrooms' %}"
+                class="student-cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="student-submit-btn"
+            >
+                Create Classroom
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}

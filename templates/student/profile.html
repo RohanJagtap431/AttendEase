@@ -1,0 +1,172 @@
+
+{% extends 'student/base_student.html' %}
+{% load static %}
+
+{% block title %}My Profile | AttendEase{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="student-profile-page">
+
+    <!-- Profile Header -->
+
+    <div class="profile-page-header">
+        <div>
+            <span class="profile-page-label">STUDENT ACCOUNT</span>
+            <h1>My Profile</h1>
+            <p>View your personal and academic information.</p>
+        </div>
+
+        <span class="profile-status">Active Student</span>
+    </div>
+
+    <!-- Profile Card -->
+
+    <div class="profile-main-card">
+
+        <div class="profile-large-avatar">
+            {{ student.user.username|first|upper }}
+        </div>
+
+        <div class="profile-main-info">
+            <h2>
+                {{ student.user.get_full_name|default:student.user.username }}
+            </h2>
+
+            <p>@{{ student.user.username }}</p>
+
+            <span>
+                {{ student.classroom.name }}
+                {{ student.classroom.section }}
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Personal Information -->
+
+    <div class="profile-details-card">
+
+        <div class="profile-section-heading">
+            <div class="profile-section-icon">◉</div>
+            <div>
+                <h2>Personal Information</h2>
+                <p>Your registered personal details.</p>
+            </div>
+        </div>
+
+        <div class="profile-details-grid">
+
+            <div class="profile-field">
+                <span>First Name</span>
+                <strong>{{ student.user.first_name|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Last Name</span>
+                <strong>{{ student.user.last_name|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Username</span>
+                <strong>{{ student.user.username }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Email Address</span>
+                <strong>{{ student.user.email|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Phone Number</span>
+                <strong>{{ student.user.phone|default:"Not provided" }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Academic Information -->
+
+    <div class="profile-details-card">
+
+        <div class="profile-section-heading">
+            <div class="profile-section-icon">▤</div>
+            <div>
+                <h2>Academic Information</h2>
+                <p>Your student and classroom details.</p>
+            </div>
+        </div>
+
+        <div class="profile-details-grid">
+
+            <div class="profile-field">
+                <span>Roll Number</span>
+                <strong>{{ student.roll_number }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Class</span>
+                <strong>{{ student.classroom.name }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Section</span>
+                <strong>{{ student.classroom.section|default:"Not assigned" }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Academic Year</span>
+                <strong>{{ student.classroom.academic_year }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Admission Date</span>
+                <strong>{{ student.admission_date|date:"d M Y" }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Parent Information -->
+
+    <div class="profile-details-card">
+
+        <div class="profile-section-heading">
+            <div class="profile-section-icon">♙</div>
+            <div>
+                <h2>Parent / Guardian Information</h2>
+                <p>Your registered parent or guardian details.</p>
+            </div>
+        </div>
+
+        <div class="profile-details-grid">
+
+            <div class="profile-field">
+                <span>Parent Name</span>
+                <strong>{{ student.parent_name|default:"Not provided" }}</strong>
+            </div>
+
+            <div class="profile-field">
+                <span>Parent Phone</span>
+                <strong>{{ student.parent_phone|default:"Not provided" }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="profile-info-note">
+        <span>ⓘ</span>
+        Your profile information is currently view-only. Contact your administrator
+        if any information needs to be corrected.
+    </div>
+
+</div>
+
+{% endblock %}
