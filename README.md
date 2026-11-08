@@ -4,7 +4,7 @@ AttendEase is a web-based Student Attendance Management System developed using P
 
 ## 🚀 Live Demo
 
-**Live Website:** https://attendease-vam6.onrender.com/
+**Live Website:** https://attendease-1-iskt.onrender.com/
 
 **GitHub Repository:** https://github.com/RohanJagtap431/AttendEase
 
